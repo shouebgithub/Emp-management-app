@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAPIResonse } from '../model/interface/master';
+import { Employee } from '../model/class/Employee';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +16,27 @@ getParentDept(){
 }
 
 getChildDeptByPDeptId(parentDeptid:number){
-
   return this.http.get<IAPIResonse>(`${this.api_url}GetChildDepartmentByParentId?deptId=${parentDeptid}`);
 }
 
 getAllEmps(){
-  return this.http.get<IAPIResonse>(`${this.api_url}GetAllEmployees`);
+  return this.http.get<Employee[]>(`${this.api_url}GetAllEmployees`);
 }
 
+createEmp(empObj:Employee):Observable<IAPIResonse>{
+  debugger;
+  return this.http.post<IAPIResonse>(this.api_url + "CreateEmployee", empObj);
+}
+
+updateEmp(obj:Employee):Observable<IAPIResonse>{
+  debugger;
+  return this.http.put<IAPIResonse>(this.api_url + "UpdateEmployee/" + obj.employeeId, obj);
+  // https://projectapi.gerasim.in/api/EmployeeManagement/UpdateEmployee/11059
+}
+
+deleteEmpById(id:number){
+  return this.http.delete<IAPIResonse>(`${this.api_url}DeleteEmployee/${id}`);
+}
 
 
 }
