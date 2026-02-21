@@ -19,7 +19,7 @@ router = inject(Router);
 
 
 login() {
-  console.log("click click");
+  // console.log("click click");
   
 if(this.loginObj.Username == "admin" && this.loginObj.password == "admin"){
   this.router.navigateByUrl("dashboard");
