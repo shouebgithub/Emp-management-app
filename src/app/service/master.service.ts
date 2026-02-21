@@ -22,6 +22,8 @@ getAllEmps(){
   return this.http.get<IAPIResonse>(`${this.api_url}GetAllEmployees`);
 }
 
-
+// createEmp(){
+//   return this.http.post<IAPIResonse>(`${this.api_url}`)
+// }
 
 }
