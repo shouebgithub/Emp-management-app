@@ -1,0 +1,52 @@
+ <form class="mb-4" [formGroup]="projectForm">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="employeeName" class="form-label">Project Name</label>
+                    <input type="text" class="form-control" formControlName="projectName" id="projectname"  placeholder="Enter employee name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="contactNo" class="form-label">Client Name</label>
+                    <input type="text" class="form-control" formControlName="clientName"  id="contactNo" placeholder="Enter contact number">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="startdate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" formControlName="startDate"  id="startdate" placeholder="Enter email">
+                </div>
+                <!-- <div class="col-md-6 mb-3">
+                    <label for="leadbyemp" class="form-label">Lead by Employee</label>
+                    <input type="text" class="form-control" formControlName="leadByEmpId"   id="startdate" placeholder="Enter Lead Employee">
+                </div> -->
+                   <div class="col-md-6 mb-3">
+                    <label for="deptId" class="form-label">Lead by Employee</label>
+                    <select class="form-select"  formControlName="leadByEmpId">
+                        @for(item of empList$ | async; track $index) {
+                            <option [value]="item.employeeId">{{item.employeeName}}</option>
+                        }
+                        <!-- Department options -->
+                    </select>
+                </div>
+           
+            </div>
+            <div class="row">
+                 <div class="col-md-4">
+                    <label for="contactNo" class="form-label">Contact Person</label>
+                    <input type="text" class="form-control" formControlName="contactPerson" id="contactNo" placeholder="Enter Contact Person">
+                </div>
+                <div class="col-md-4">
+                    <label for="role" class="form-label">Contact Number</label>
+                    <input type="text" class="form-control" formControlName="contactNo" id="role" placeholder="Contact Number">
+                </div>
+                <div class="col-md-4">
+                    <label for="role" class="form-label">Email Id</label>
+                    <input type="email" class="form-control" formControlName="emailId"  id="emailId" placeholder="Enter emailId">
+                </div>
+            </div>
+   
+         
+            <button type="button" (click)="onsaveproject()" class="btn btn-primary mt-3 me-3">submit</button>
+            <!-- <button class="btn btn-success mt-3" >Close</button> -->
+
+        </form>
+    

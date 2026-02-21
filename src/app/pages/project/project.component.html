@@ -1,1 +1,73 @@
-<p>project works!</p>
+<div class="container-fluid my-4">
+         
+         
+    <!-- Employees Tab -->
+    <div class="tab-pane fade show active" id="employees" role="tabpanel">
+        <div class="row">
+            <div class="col-6">
+                <h2>Project List</h2>
+            </div>
+            <div class="col-6 text-end">
+                <button routerLink="/new-project/0" class="btn btn-success">Add Project</button>
+            </div>
+        </div>       
+
+        <!-- Employee Form -->
+       
+
+        <!-- Employee Table -->
+      
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="projectId">
+                <th mat-header-cell *matHeaderCellDef> Project ID </th>
+                <td mat-cell *matCellDef="let item"> {{item.projectId}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="projectName">
+                <th mat-header-cell *matHeaderCellDef> Project Name </th>
+                <td mat-cell *matCellDef="let item">  {{item.projectName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="clientName">
+                <th mat-header-cell *matHeaderCellDef> client Name </th>
+                <td mat-cell *matCellDef="let item">  {{item.clientName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="leadByEmpId">
+                <th mat-header-cell *matHeaderCellDef> Lead by EmpId</th>
+                <td mat-cell *matCellDef="let item">  {{item.leadByEmpId}} </td>
+              </ng-container>
+              <ng-container matColumnDef="contactNo">
+                <th mat-header-cell *matHeaderCellDef> Contact No </th>
+                <td mat-cell *matCellDef="let item"> {{item.contactNo}}</td>
+              </ng-container>
+              <ng-container matColumnDef="emailId">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let item"> {{item.emailId}}</td>
+              </ng-container>
+              <ng-container matColumnDef="contactPerson">
+                <th mat-header-cell *matHeaderCellDef> Contact Person </th>
+                <td mat-cell *matCellDef="let item">  {{item.contactPerson}} </td>
+              </ng-container>
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef> Start Date </th>
+                <td mat-cell *matCellDef="let item">  {{item.startDate}} </td>
+              </ng-container>
+         
+           
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>    
+                <td mat-cell *matCellDef="let item">  
+                    <button class="mr-6" mat-button (click)="editProject(item.projectId)">Edit</button>
+                    <button  mat-button (click)="deleteProject(item.projectId)" >Delete</button></td>    
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+<mat-paginator 
+[pageSizeOptions]="[5, 10, 25, 100]"
+aria-label="Select page">
+</mat-paginator>
+
+    </div>
+
+  
+</div>  

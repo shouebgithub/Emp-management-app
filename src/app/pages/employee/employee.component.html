@@ -17,21 +17,21 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="employeeName" class="form-label">Employee Name</label>
-                    <input type="text" class="form-control" id="employeeName" placeholder="Enter employee name">
+                    <input type="text" class="form-control" name="employeeName" id="employeeName" [(ngModel)]="empObj.employeeName" placeholder="Enter employee name">
                 </div>
                 <div class="col-md-6">
                     <label for="contactNo" class="form-label">Contact No</label>
-                    <input type="text" class="form-control" id="contactNo" placeholder="Enter contact number">
+                    <input type="text" class="form-control" name="contactNo" [(ngModel)]="empObj.contactNo" id="contactNo" placeholder="Enter contact number">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
                     <label for="emailId" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="emailId" placeholder="Enter email">
+                    <input type="email" class="form-control" name="emailId" [(ngModel)]="empObj.emailId" id="emailId" placeholder="Enter email">
                 </div>
                 <div class="col-md-4">
                     <label for="deptId" class="form-label">Parent Department</label>
-                    <select id="deptId" class="form-select" [(ngModel)]="parentDeptId" name="parentDeptId" (change)="onParentDeptChange()">
+                    <select class="form-select" [(ngModel)]="parentDeptId" name="parentDeptId" (change)="onParentDeptChange()">
                     @for(item of parentDeptList(); track $index) {
                         <option [value]="item.departmentId">{{item.departmentName}}</option>
                     }
@@ -40,7 +40,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="deptId" class="form-label">Child Department</label>
-                    <select id="deptId" class="form-select">
+                    <select class="form-select" name="deptId" [(ngModel)]="empObj.deptId">
                         @for(item of childDeptList(); track $index) {
                             <option [value]="item.childDeptId">{{item.departmentName}}</option>
                         }
@@ -51,17 +51,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    <input type="password" class="form-control" name="password" [(ngModel)]="empObj.password" id="password" placeholder="Enter password">
                 </div>
                 <div class="col-md-6">
                     <label for="role" class="form-label">Role</label>
-                    <input type="text" class="form-control" id="role" placeholder="Enter role">
+                    <input type="text" class="form-control" name="role" [(ngModel)]="empObj.role" id="role" placeholder="Enter role">
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="gender" class="form-label">Gender</label>
-                    <select id="gender" class="form-select">
+                    <select id="gender" class="form-select" name="gender" [(ngModel)]="empObj.gender">
                         <option selected>Select gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -69,8 +69,12 @@
                     </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-3 me-3">Submit</button>
-            <button class="btn btn-success mt-3" (click)="isFormVisible.set(false)">Close</button>
+            @if(empObj.employeeId === 0) {
+                <button class="btn btn-primary mt-3 me-3" (click)="onSave()">Submit</button>
+            } @else {
+            <button class="btn btn-primary mt-3 me-3" (click)="onUpdate(this.empObj)">Update</button>
+            }
+            <button class="btn btn-success mt-3" (click)="onClose()">Close</button>
 
         </form>
         } 
@@ -79,7 +83,7 @@
 
         <!-- Employee Table -->
         <h3>Employee List</h3>
-        <table class="table table-bordered">
+        <!-- <table class="table table-bordered">
             <thead>
                 <tr class="text-center">
                     <th>Employee ID</th>
@@ -92,30 +96,87 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                @for(item of empList(); track $index){
-                <tr class="text-center">
-              <td>{{item.employeeId}}</td>
-              <td>{{item.employeeName}}</td>
-              <td>{{item.contactNo}}</td>
-              <td>{{item.emailId}}</td>
-              <td>{{item.deptId}}</td>
-              <td>{{item.role}}</td>
-              <td>{{item.gender}}</td>
-              <td>
-                <div class="buttons d-flex gap-1">
-                <button class="btn btn-success">Edit</button>
-                <button class="btn btn-danger">Edit</button>
+          
+        <tbody>
+            @for(item of empList(); track $index) {
+                  <tr>
+            <td>{{item.employeeId}}</td>
+            <td>{{item.employeeName}}</td>
+            <td>{{item.contactNo}}</td>
+            <td>{{item.emailId}}</td>
+            <td>{{item.deptId}}</td>
+            <td>{{item.gender}}</td>
+            <td>{{item.role}}</td>
+            <td>
+                <div class="btns d-flex gap-1">
+                <button class="btn btn-primary" (click)="onEdit(item)">Edit</button>
+                <button class="btn btn-danger" (click)="onDelete(item.employeeId)">Delete</button>
                 </div>
+            
+            </td>
+           
+         </tr>
+            }
+       
+        </tbody>
+        </table> -->
+        <mat-form-field>
+  <input matInput type="search" placeholder="Search..." (keyup)="applyFilter($event)">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
 
-              </td>
-      
-                </tr>  
-                }
-     
-            </tbody>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="employeeId">
+                <th mat-header-cell *matHeaderCellDef> Employee ID </th>
+                <td mat-cell *matCellDef="let item"> {{item.employeeId}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="employeeName">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let item"> {{item.employeeName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="contactNo">
+                <th mat-header-cell *matHeaderCellDef> Contact No </th>
+                <td mat-cell *matCellDef="let item"> {{item.contactNo}} </td>
+              </ng-container>
+              <ng-container matColumnDef="emailId">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let item"> {{item.emailId}} </td>
+              </ng-container>
+              <ng-container matColumnDef="deptId">
+                <th mat-header-cell *matHeaderCellDef> Department </th>
+                <td mat-cell *matCellDef="let item"> {{item.deptId}} </td>
+              </ng-container>
+              <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef> Role </th>
+                <td mat-cell *matCellDef="let item"> {{item.role}} </td>
+              </ng-container>
+              <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let item"> {{item.gender}} </td>
+              </ng-container>
+           
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>    
+                <td mat-cell *matCellDef="let item">  
+                    <button class="mr-6" mat-button (click)="onEdit(item)">Edit</button>
+                    <button  mat-button (click)="onDelete(item.employeeId)">Delete</button></td>    
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        <!-- <mat-paginator [length]="totalItems"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page"
+        (page)="onPageChange($event)"
+      > 
+</mat-paginator>-->
+<mat-paginator 
+[pageSizeOptions]="[5, 10, 25, 100]"
+aria-label="Select page">
+</mat-paginator>
     </div>
 
   
-</div>
+</div>  
