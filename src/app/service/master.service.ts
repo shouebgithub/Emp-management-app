@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IAPIResonse } from '../model/interface/master';
+import { Employee } from '../model/class/Employee';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +24,19 @@ getAllEmps(){
   return this.http.get<IAPIResonse>(`${this.api_url}GetAllEmployees`);
 }
 
-// createEmp(){
-//   return this.http.post<IAPIResonse>(`${this.api_url}`)
-// }
+editEmp(id:number){
+  console.log(id);
+  return this.http.get<IAPIResonse>(`${this.api_url}GetEmployee/${id}`)
+}
 
+createEmp(empObj: Employee):Observable<IAPIResonse>{
+  return this.http.post<IAPIResonse>(`${this.api_url}CreateEmployee`, empObj)
+}
+
+updateEmp(empObj:Employee){
+  return this.http.put<IAPIResonse>(`${this.api_url}UpdateEmployee/`+ empObj.employeeId, empObj);
+}
+deleteEmp(id:number){
+  return this.http.delete<IAPIResonse>(`${this.api_url}/` + id);
+}
 }
