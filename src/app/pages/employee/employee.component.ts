@@ -111,12 +111,12 @@ getAllEmployees(){
   }
 
 onSave(){
-  debugger;
+  // debugger;
   this.masterService.createEmp(this.empObj).subscribe((res:IAPIResonse)=>{
-  debugger;
+  // debugger;
     alert("Employee created");
     this.getAllEmployees();
-    this.empObj = new Employee();
+    // this.empObj = new Employee();
   }, error => {
     alert("api issue");
   });
