@@ -20,12 +20,11 @@ export const routes: Routes = [
     {
         path: '',
         component: LayoutComponent,
-        
+        canActivateChild: [authguardGuard],
         children: [
             {
                 path: 'dashboard',
                 component: DashboardComponent,
-                canActivate: [authguardGuard]
             },
             {
                 path: 'employee',
